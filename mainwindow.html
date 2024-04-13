@@ -7,14 +7,17 @@
     <link rel="stylesheet" href="style.css">
     <script src="mainscript.js"></script>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
+
 </head>
 <body>
+
+    <h2>Welcome Mayur Mistry!</h2>
+
     <div class="main-panel">
         <h2>Client Management</h2>
-        <button id="logout-btn">Logout</button>
         <input type="text" id="search-input" placeholder="Search for clients...">
         <div class="client-section">
-            <h3>All Clients</h3>
+            <h3>Clients List</h3>
             <!-- Here goes the list of clients -->
             <div id="client-list">
                 <!-- Clients will be dynamically added here -->
@@ -30,6 +33,11 @@
             <p><strong>Phone No.:</strong> <span id="client-phone"></span></p>
         </div>
     </div>
+
+    <div id="logoutbutton">
+        <button id="logout-btn">Logout</button>
+    </div>
+
 
     <div id="add-client-modal" class="modal">
         <div class="modal-content">
@@ -56,5 +64,7 @@
             </form>
         </div>
     </div>
+
+
 </body>
 </html>

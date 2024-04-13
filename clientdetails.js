@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Function to handle service renewal
+    
     function renewService(index) {
         var renewalPeriod = prompt("Renew for (month/day/year):");
         if (renewalPeriod && ['month', 'day', 'year'].includes(renewalPeriod.toLowerCase())) {
@@ -111,16 +111,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 service.renewal = renewalPeriod.toLowerCase();
                 // Save the updated services array
                 localStorage.setItem('clients', JSON.stringify(clients));
-                // Re-render services after renewal
-                var client = getClientDetails(clientId);
-                if (client) {
-                    renderServices(client.services);
-                }
+
+                // Open the invoice in a new window with service details
+                var queryParams = `?serviceName=${service.name}&servicePayment=${service.payment}&serviceDate=${service.date}`;
+                var invoiceUrl = 'invoice.html' + queryParams;
+                window.open(invoiceUrl, '_blank');
             }
         } else {
             alert("Invalid renewal period!");
         }
     }
+
+
 
     // Function to calculate time until renewal
     function calculateTimeUntilRenewal(serviceDate, renewal) {

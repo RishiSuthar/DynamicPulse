@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <link rel="stylesheet" href="style.css"> <!-- Add your CSS file here -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+<body>
+
+    <div id = "invoiceedit">
+        <h2>Your Invoice</h2>
+        <div id="invoice-details">
+            <!-- Service details will be dynamically added here -->
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var queryString = window.location.search;
+                var urlParams = new URLSearchParams(queryString);
+                var serviceName = urlParams.get('serviceName');
+                var servicePayment = urlParams.get('servicePayment');
+                var serviceDate = urlParams.get('serviceDate');
+
+                // Display service details on the invoice page
+                var invoiceDetails = document.getElementById('invoice-details');
+                if (invoiceDetails) {
+                    invoiceDetails.innerHTML = `
+                        <p><strong>Service Name:</strong> ${serviceName}</p>
+                        <p><strong>Payment:</strong> $${servicePayment}</p>
+                        <p><strong>Date Renewed:</strong> ${serviceDate}</p>
+                    `;
+                }
+            });
+        </script>
+    </div>
+</body>
+</html>

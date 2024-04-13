@@ -66,12 +66,6 @@ button:hover {
 }
 
 
-
-
-
-
-
-
 /* Add these styles to your existing styles.css */
 
 .main-panel {
@@ -81,6 +75,7 @@ button:hover {
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 80px;
 }
 
 .client-section {
@@ -168,4 +163,41 @@ button:hover {
 /* Style for delete button on hover */
 .delete-service-btn:hover {
     background-color: #c82333;
+}
+
+.client-item {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 3px solid rgb(63, 63, 63);
+}
+
+
+#logout-btn{
+    width: 100px;
+
+}
+
+#logoutbutton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+
+}  
+
+#client-list:hover {
+    cursor: pointer;
+}
+
+
+
+#invoiceedit {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 80px;
+
 }
