@@ -7,11 +7,30 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
+    <style>
+        /* Additional style for logo */
+        .logo {
+            display: block;
+            margin: 0 auto;
+            width: 100px; /* Adjust the width as needed */
+            height: auto; /* Maintain aspect ratio */
+            padding-top: 30px; /* Adjust the padding as needed */
+        }
+
+        /* Additional style for footer */
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
 </head>
-<body>
+<body><!-- Add this line for the logo -->
     <div class="welcome-badge">
         Welcome to Rishis CPA Management Program
     </div>
+    <img src="myicon.png" alt="My Icon" class="logo"> 
     <div class="login-container">
         <h2>Login</h2>
         <form id="login-form">
@@ -26,7 +45,8 @@
             <button type="submit">Login</button>
         </form>
     </div>
-
-
+    <footer>
+        &copy; 2024 Rishi Suthar. All Rights Reserved
+    </footer>
 </body>
 </html>

@@ -24,7 +24,7 @@ body {
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-top: 90px;
+    margin-top: 50px;
 }
 
 
@@ -382,4 +382,14 @@ button:hover {
     width: 100px; /* Adjust the width as needed */
     margin: 0 auto; /* Center the button horizontally */
     display: block; /* Ensures button behaves as a block-level element */
+}
+
+
+
+footer {
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    color: #666;
 }
