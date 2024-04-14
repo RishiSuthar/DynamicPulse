@@ -17,7 +17,6 @@
         <div id="invoice-details">
             <!-- Service details will be dynamically added here -->
         </div>
-    
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 var queryString = window.location.search;
@@ -25,6 +24,10 @@
                 var serviceName = urlParams.get('serviceName');
                 var servicePayment = urlParams.get('servicePayment');
                 var serviceDate = urlParams.get('serviceDate');
+                var billToName = urlParams.get('billToName'); // Add this line to get bill-to-name
+                var billToAddress = urlParams.get('billToAddress'); // Add this line to get bill-to-address
+                var billToPhone = urlParams.get('billToPhone'); // Add this line to get bill-to-phone
+                var renewdate = urlParams.get('renewdates');
         
                 // Function to calculate expiration date based on service date and days until renewal
                 function calculateExpirationDate(date, daysUntilExpiration) {
@@ -62,9 +65,9 @@
                         <p>rishibhunji@gmail.com</p>     
                         <br>
                         <h3><strong>BILL TO</strong></h3>
-                        <p id="bill-to-name"></p>
-                        <p id="bill-to-address"></p>
-                        <p id="bill-to-phone"></p>
+                        <p id="bill-to-name">${billToName}</p>
+                        <p id="bill-to-address">${billToAddress}</p>
+                        <p id="bill-to-phone">${billToPhone}</p>
                         <br>
         
                         <h3><strong>SERVICES</strong></h3>
@@ -72,14 +75,12 @@
                         <p><strong>Service Name:</strong> ${serviceName}</p>
                         <p><strong>Payment:</strong> $${servicePayment}</p>
                         <p><strong>Date Renewed:</strong> ${serviceDate}</p>
-                        <p><strong>Days Until Due:</strong> ${daysUntilExpiration} day(s)</p>
+                        <p><strong>Days Until Due:</strong> ${renewdate} day(s)</p>
                     `;
                 }
             });
         </script>
-        
-        
-        
+    
     </div>
     
 </body>

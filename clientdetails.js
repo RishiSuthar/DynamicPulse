@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <p><strong>Payment:</strong> $${service.payment}</p>
                 <div class="service-buttons">
                     <button class="renew-service-btn" data-index="${index}">Renew</button> <!-- Renew button -->
+                    <button class="get-invoice-btn" data-index="${index}">Get Invoice</button>
                     <button class="delete-service-btn" data-index="${index}">Delete</button> <!-- Delete button -->
                 </div>
             `;
@@ -54,7 +55,43 @@ document.addEventListener('DOMContentLoaded', function() {
             var line = document.createElement('hr');
             servicesContainer.insertBefore(line, servicesContainer.firstChild);
         });
-    
+        
+        // Attach event listener to "Get Invoice" buttons
+        var getInvoiceButtons = document.querySelectorAll('.get-invoice-btn');
+        getInvoiceButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                var serviceItem = button.closest('.service-item'); // Find the parent service item
+                var serviceNameElement = serviceItem.querySelector('p:nth-of-type(1)'); // Get the service name element
+                var servicePaymentElement = serviceItem.querySelector('p:nth-of-type(3)'); // Get the service payment element
+                var serviceDateElement = serviceItem.querySelector('p:nth-of-type(2)'); // Get the service date element
+                var renewalInfo = serviceItem.querySelector('p:nth-of-type(4)');
+
+                var billToName = client.fullName;
+                var billToAddress = client.address;
+                var billToPhone = client.phone;
+
+                // Check if all required elements are present
+                if (serviceNameElement && servicePaymentElement && serviceDateElement) {
+                    var serviceName = serviceNameElement.textContent.trim().split(':')[1]; // Get service name
+                    var servicePayment = servicePaymentElement.textContent.trim().split(':')[1].replace('$', ''); // Get service payment
+                    var serviceDate = serviceDateElement.textContent.trim().split(':')[1];
+                    var timeUntilRenewal = renewalInfo.textContent.split(' ')[2]; 
+
+
+                    var invoiceUrl = `invoice.html?serviceName=${serviceName}&servicePayment=${servicePayment}&serviceDate=${serviceDate}&timeUntilRenewal=${timeUntilRenewal}&billToName=${billToName}&billToAddress=${billToAddress}&billToPhone=${billToPhone}&renewdates=${timeUntilRenewal}`;
+            
+                    // Open the invoice page in a new tab
+                    window.open(invoiceUrl, '_blank');
+
+                } else {
+                    console.error('Required elements not found');
+                }
+            });
+        });
+
+
+
+
         // Attach event listener to delete buttons
         var deleteButtons = document.querySelectorAll('.delete-service-btn');
         deleteButtons.forEach(function(button) {
@@ -81,29 +118,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Function to delete a service
-    function deleteService(index) {
-        var clientId = getParameterByName('clientId');
-        var clients = JSON.parse(localStorage.getItem('clients')) || [];
-        var clientIndex = clients.findIndex(function(client) {
-            return client.id == clientId;
-        });
-        if (clientIndex !== -1 && clients[clientIndex].services) {
-            clients[clientIndex].services.splice(index, 1);
-            localStorage.setItem('clients', JSON.stringify(clients));
-            // Re-render services after deletion
-            var client = getClientDetails(clientId);
-            if (client) {
-                renderServices(client.services);
-            }
-        }
-    }
-
-    // Function to renew a service
+    // Inside the renewService function
     function renewService(index) {
-        var renewalPeriod = prompt("Renew for (month/day/year):");
-        if (renewalPeriod && ['month', 'day', 'year'].includes(renewalPeriod.toLowerCase())) {
-            // Get the client ID and services from local storage
+        var renewalDays = prompt("Renew for how many days?");
+        if (renewalDays && !isNaN(renewalDays)) {
             var clientId = getParameterByName('clientId');
             var clients = JSON.parse(localStorage.getItem('clients')) || [];
             var clientIndex = clients.findIndex(function(client) {
@@ -111,34 +129,26 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             if (clientIndex !== -1 && clients[clientIndex].services) {
                 var service = clients[clientIndex].services[index];
-                // Get the current expiry date
                 var expiryDate = new Date(service.date);
-                // Calculate the new expiry date based on renewal period
-                switch (renewalPeriod.toLowerCase()) {
-                    case 'month':
-                        expiryDate.setMonth(expiryDate.getMonth() + 1);
-                        break;
-                    case 'year':
-                        expiryDate.setFullYear(expiryDate.getFullYear() + 1);
-                        break;
-                    case 'day':
-                        expiryDate.setDate(expiryDate.getDate() + 1);
-                        break;
-                }
-                // Update the service with the new expiry date
-                service.date = expiryDate.toISOString().split('T')[0]; // Convert date to string in YYYY-MM-DD format
-                // Save the updated services array
+                expiryDate.setDate(expiryDate.getDate() + parseInt(renewalDays)); // Renew for specified days
+                
+                // Calculate time until renewal
+                var timeUntilRenewal = calculateTimeUntilRenewal(expiryDate.toISOString().split('T')[0], service.renewal);
+                
+                // Update the service date
+                service.date = expiryDate.toISOString().split('T')[0];
                 localStorage.setItem('clients', JSON.stringify(clients));
 
-                // Open the invoice in a new window with service details
-                var queryParams = `?serviceName=${service.name}&servicePayment=${service.payment}&serviceDate=${service.date}`;
-                var invoiceUrl = 'invoice.html' + queryParams;
-                window.open(invoiceUrl, '_blank');
+                // Show confirmation message
+                alert(`Service renewed for ${renewalDays} days. You can view the updated invoice in the Invoice section.`);
             }
         } else {
-            alert("Invalid renewal period!");
+            alert("Invalid input. Please enter a valid number of days.");
         }
     }
+
+
+
 
     // Function to add a new task
     function addTask(taskName) {

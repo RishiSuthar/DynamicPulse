@@ -143,7 +143,7 @@ button:hover {
 
 /* Style for delete button */
 .delete-service-btn {
-    width: 200px;
+    width:100px;
     padding: 5px 10px;
     background-color: #dc3545;
     color: white;
@@ -151,11 +151,10 @@ button:hover {
     border-radius: 5px;
     cursor: pointer;
     font-size: 14px;
-    margin-left: 50px;
 }
 
 .renew-service-btn {
-    width: 200px;
+    width: 100px;
     padding: 5px 10px;
     background-color: #006633;
     color: white;
@@ -164,6 +163,21 @@ button:hover {
     cursor: pointer;
     font-size: 14px;
 }
+
+
+.get-invoice-btn {
+    width: 100px;
+    padding: 5px 10px;
+    background-color: #003d66;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 50px;
+}
+
+
 
 /* Style for delete button on hover */
 .delete-service-btn:hover {
