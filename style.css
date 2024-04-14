@@ -1,3 +1,8 @@
+
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -185,6 +190,19 @@ button:hover {
 
 }  
 
+#print-btn{
+    width: 100px;
+
+}
+
+#printbutton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90px;
+
+}  
+
 #client-list:hover {
     cursor: pointer;
 }
@@ -201,3 +219,5 @@ button:hover {
     margin-top: 80px;
 
 }
+
+

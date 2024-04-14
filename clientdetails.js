@@ -107,11 +107,25 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             if (clientIndex !== -1 && clients[clientIndex].services) {
                 var service = clients[clientIndex].services[index];
-                // Update the renewal period
-                service.renewal = renewalPeriod.toLowerCase();
+                // Get the current expiry date
+                var expiryDate = new Date(service.date);
+                // Calculate the new expiry date based on renewal period
+                switch (renewalPeriod.toLowerCase()) {
+                    case 'month':
+                        expiryDate.setMonth(expiryDate.getMonth() + 1);
+                        break;
+                    case 'year':
+                        expiryDate.setFullYear(expiryDate.getFullYear() + 1);
+                        break;
+                    case 'day':
+                        expiryDate.setDate(expiryDate.getDate() + 1);
+                        break;
+                }
+                // Update the service with the new expiry date
+                service.date = expiryDate.toISOString().split('T')[0]; // Convert date to string in YYYY-MM-DD format
                 // Save the updated services array
                 localStorage.setItem('clients', JSON.stringify(clients));
-
+    
                 // Open the invoice in a new window with service details
                 var queryParams = `?serviceName=${service.name}&servicePayment=${service.payment}&serviceDate=${service.date}`;
                 var invoiceUrl = 'invoice.html' + queryParams;
@@ -121,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function() {
             alert("Invalid renewal period!");
         }
     }
-
+    
 
 
     // Function to calculate time until renewal
