@@ -361,3 +361,25 @@ button:hover {
     width: 100px; /* Adjust the width as needed */
     font-size: 15px;
 }
+
+
+#add-client-btn {
+    width: 120px;
+    margin-bottom: 20px;
+}
+
+#search-input {
+    width: 50%; /* Adjust the width as needed */
+    margin-left: 20px;
+}
+
+#add-client-modal .modal-content {
+    width: 80%; /* Adjust the width as needed */
+    max-width: 500px; /* Set a maximum width */
+}
+
+#add-client-modal .modal-content button[type="submit"] {
+    width: 100px; /* Adjust the width as needed */
+    margin: 0 auto; /* Center the button horizontally */
+    display: block; /* Ensures button behaves as a block-level element */
+}
