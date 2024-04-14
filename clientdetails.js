@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 localStorage.setItem('clients', JSON.stringify(clients));
 
                 // Show confirmation message
-                alert(`Service renewed for ${renewalDays} days. You can view the updated invoice in the Invoice section.`);
+                alert(`Service renewed for ${renewalDays} days. Please refresh the page!`);
             }
         } else {
             alert("Invalid input. Please enter a valid number of days.");
