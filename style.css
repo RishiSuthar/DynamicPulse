@@ -221,3 +221,129 @@ button:hover {
 }
 
 
+
+.delete-task-btn {
+    display: flex;
+    justify-content: center;
+    font-size: 10px;
+    width: 20px; /* Adjust the width as needed */
+    background-color: red;
+    height: 25px;
+    padding: 5px 10px;
+    margin-top: 5px;
+}
+
+
+
+.delete-task-btn:hover {
+    background-color: #570000;
+}
+
+/* Styles for task status colors */
+.green {
+    color: #008e21; /* Green */
+    background-color: #f8f9fa; /* Light gray */
+    padding: 5px 10px; /* Padding for better spacing */
+    border-radius: 4px; /* Rounded corners */
+}
+
+.red {
+    color: #a80011; /* Red */
+    background-color: #f8f9fa; /* Light gray */
+    padding: 5px 10px; /* Padding for better spacing */
+    border-radius: 4px; /* Rounded corners */
+}
+
+.yellow {
+    color: #d19c00; /* Yellow */
+    background-color: #f8f9fa; /* Light gray */
+    padding: 5px 10px; /* Padding for better spacing */
+    border-radius: 4px; /* Rounded corners */
+}
+
+
+
+/* Styles for client details */
+.client-details {
+    padding: 20px;
+    border-bottom: 2px solid #ccc;
+}
+
+.client-info {
+    margin-bottom: 20px;
+}
+
+.client-info p {
+    margin: 5px 0;
+}
+
+/* Styles for services and tasks container */
+.services-tasks-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+/* Styles for services column */
+.services-column {
+    flex: 0 0 48%; /* Adjust the width as needed */
+}
+
+.services-column button {
+    margin-bottom: 10px;
+}
+
+/* Styles for tasks column */
+.tasks-column {
+    flex: 0 0 48%; /* Adjust the width as needed */
+}
+
+.tasks-column h3 {
+    margin-top: 0;
+}
+
+.tasks-column form {
+    margin-bottom: 20px;
+}
+
+.tasks-column input[type="text"] {
+    width: calc(100% - 80px);
+    margin-right: 10px;
+}
+
+.tasks-column button[type="submit"] {
+    width: 80px;
+}
+
+
+/* Styles for services and tasks container */
+.services-tasks-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    border-bottom: 2px solid #ccc; /* Add a border to separate the columns */
+}
+
+/* Styles for services column */
+.services-column {
+    flex: 0 0 48%; /* Adjust the width as needed */
+    border-right: 1px solid #ccc; /* Add a border to the right of the services column */
+    padding-right: 20px; /* Add padding to create space between the border and content */
+}
+
+/* Styles for tasks column */
+.tasks-column {
+    flex: 0 0 48%; /* Adjust the width as needed */
+    padding-left: 20px; /* Add padding to create space between the border and content */
+}
+
+
+#add-task-btn {
+    justify-content: center;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    padding: 10px;
+    display: flex;
+    width: 100px; /* Adjust the width as needed */
+    font-size: 15px;
+}

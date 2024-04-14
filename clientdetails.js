@@ -23,13 +23,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Populate services
         renderServices(client.services);
+
+        // Populate tasks
+        renderTasks(client.tasks);
     }
 
     // Function to render services in the HTML
     function renderServices(services) {
         var servicesContainer = document.getElementById('services-container');
         servicesContainer.innerHTML = ''; // Clear previous services
-
+    
         services.forEach(function(service, index) {
             var serviceItem = document.createElement('div');
             serviceItem.classList.add('service-item');
@@ -42,15 +45,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     <button class="delete-service-btn" data-index="${index}">Delete</button> <!-- Delete button -->
                 </div>
             `;
-            servicesContainer.appendChild(serviceItem);
+            // Insert the service item at the beginning of the services container
+            servicesContainer.insertBefore(serviceItem, servicesContainer.firstChild);
             // Display time until renewal
             displayTimeUntilRenewal(service, serviceItem);
-
+    
             // Add a line under the service
             var line = document.createElement('hr');
-            serviceItem.appendChild(line);
+            servicesContainer.insertBefore(line, servicesContainer.firstChild);
         });
-
+    
         // Attach event listener to delete buttons
         var deleteButtons = document.querySelectorAll('.delete-service-btn');
         deleteButtons.forEach(function(button) {
@@ -59,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 confirmDeleteService(index);
             });
         });
-
+    
         // Attach event listener to renew buttons
         var renewButtons = document.querySelectorAll('.renew-service-btn');
         renewButtons.forEach(function(button) {
@@ -69,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
-
+    
     // Function to confirm deletion of a service
     function confirmDeleteService(index) {
         if (confirm("Are you sure you want to delete this service?")) {
@@ -95,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    
+    // Function to renew a service
     function renewService(index) {
         var renewalPeriod = prompt("Renew for (month/day/year):");
         if (renewalPeriod && ['month', 'day', 'year'].includes(renewalPeriod.toLowerCase())) {
@@ -125,7 +129,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 service.date = expiryDate.toISOString().split('T')[0]; // Convert date to string in YYYY-MM-DD format
                 // Save the updated services array
                 localStorage.setItem('clients', JSON.stringify(clients));
-    
+
                 // Open the invoice in a new window with service details
                 var queryParams = `?serviceName=${service.name}&servicePayment=${service.payment}&serviceDate=${service.date}`;
                 var invoiceUrl = 'invoice.html' + queryParams;
@@ -135,7 +139,37 @@ document.addEventListener('DOMContentLoaded', function() {
             alert("Invalid renewal period!");
         }
     }
-    
+
+    // Function to add a new task
+    function addTask(taskName) {
+        var clientId = getParameterByName('clientId');
+        var clients = JSON.parse(localStorage.getItem('clients')) || [];
+        var clientIndex = clients.findIndex(function(client) {
+            return client.id == clientId;
+        });
+        if (clientIndex !== -1) {
+            if (!clients[clientIndex].tasks) {
+                clients[clientIndex].tasks = [];
+            }
+            // Create a new task object
+            var newTask = {
+                name: taskName,
+                status: 'inprogress' // Set the initial status to 'inprogress'
+            };
+            // Add the new task to the client's tasks array
+            clients[clientIndex].tasks.push(newTask);
+            localStorage.setItem('clients', JSON.stringify(clients));
+            // Re-render tasks after adding the new task
+            renderTasks(clients[clientIndex].tasks);
+
+            // Update the color of the newly added task
+            var tasksList = document.getElementById('tasks-list');
+            var newTaskItem = tasksList.lastElementChild.previousElementSibling; // Get the newly added task item
+            var statusDropdown = newTaskItem.querySelector('.status-dropdown');
+            var status = statusDropdown.value; // Get the status from the dropdown
+            updateTaskStatus(newTaskItem, status); // Apply color coding based on the status
+        }
+    }
 
 
     // Function to calculate time until renewal
@@ -175,6 +209,130 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         serviceItem.appendChild(renewalInfo);
+    }
+
+    // Function to render tasks in the HTML
+    function renderTasks(tasks) {
+        var tasksList = document.getElementById('tasks-list');
+        tasksList.innerHTML = ''; // Clear previous tasks
+
+        tasks.forEach(function(task, index) {
+            var taskItem = document.createElement('li');
+            taskItem.innerHTML = `
+                <span class="task-name">${task.name}</span>
+                <div class="task-status">
+                    <select class="status-dropdown" data-index="${index}">
+                        <option value="inprogress">In Progress</option>
+                        <option value="complete">Complete</option>
+                        <option value="incomplete">Incomplete</option>
+                    </select>
+                </div>
+                <button class="delete-task-btn">X</button>
+            `;
+
+            tasksList.appendChild(taskItem);
+            // Set the selected status based on the task status from local storage
+            var storedStatus = localStorage.getItem(`taskStatus-${clientId}-${index}`);
+            if (storedStatus) {
+                taskItem.querySelector('.status-dropdown').value = storedStatus;
+                updateTaskStatus(taskItem, storedStatus); // Apply color coding based on stored status
+            }
+
+            // Add a line for spacing
+            var line = document.createElement('hr');
+            tasksList.appendChild(line);
+        });
+
+        // Attach event listener to task status dropdowns
+        var dropdowns = document.querySelectorAll('.status-dropdown');
+        dropdowns.forEach(function(dropdown) {
+            dropdown.addEventListener('change', function() {
+                var index = parseInt(dropdown.getAttribute('data-index'));
+                var status = dropdown.value;
+                updateTaskStatus(dropdown.parentElement.parentElement, status);
+            });
+        });
+
+        // Attach event listener to delete task buttons
+        var deleteButtons = document.querySelectorAll('.delete-task-btn');
+        deleteButtons.forEach(function(button, index) {
+            button.addEventListener('click', function() {
+                deleteTask(index);
+            });
+        });
+    }
+
+
+    // Function to update task status
+    function updateTaskStatus(taskItem, status) {
+        var taskName = taskItem.querySelector('.task-name');
+        var taskStatus = taskItem.querySelector('.task-status');
+    
+        // Remove previous status classes
+        taskName.classList.remove('green', 'red', 'yellow');
+    
+        // Add new status classes
+        var statusClass = getStatusClass(status);
+        taskName.classList.add(statusClass);
+    
+        var index = parseInt(taskItem.querySelector('.status-dropdown').getAttribute('data-index'));
+        var clientId = getParameterByName('clientId');
+        var clients = JSON.parse(localStorage.getItem('clients')) || [];
+        var clientIndex = clients.findIndex(function(client) {
+            return client.id == clientId;
+        });
+        if (clientIndex !== -1) {
+            clients[clientIndex].tasks[index].status = status; // Update the task status
+            localStorage.setItem('clients', JSON.stringify(clients)); // Save the updated tasks
+    
+            // Save the status in localStorage
+            localStorage.setItem(`taskStatus-${clientId}-${index}`, status);
+        }
+    }
+
+    // Function to delete a task
+    function deleteTask(index) {
+        var clientId = getParameterByName('clientId');
+        var clients = JSON.parse(localStorage.getItem('clients')) || [];
+        var clientIndex = clients.findIndex(function(client) {
+            return client.id == clientId;
+        });
+        if (clientIndex !== -1 && clients[clientIndex].tasks) {
+            clients[clientIndex].tasks.splice(index, 1);
+            localStorage.setItem('clients', JSON.stringify(clients));
+            var client = getClientDetails(clientId);
+            if (client) {
+                renderTasks(client.tasks);
+            }
+        }
+    }
+
+    // Helper function to get CSS class based on task status
+    function getStatusClass(status) {
+        switch (status) {
+            case 'complete':
+                return 'green';
+            case 'incomplete':
+                return 'red';
+            case 'inprogress':
+                return 'yellow';
+            default:
+                return '';
+        }
+    }
+
+    // Attach event listener to add task form
+    var addTaskForm = document.getElementById('add-task-form');
+    if (addTaskForm) {
+        addTaskForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            var taskInput = document.getElementById('task-input');
+            var taskName = taskInput.value.trim();
+            if (taskName !== '') {
+                addTask(taskName);
+                taskInput.value = '';
+            }
+        });
     }
 
     // Function to show the service modal
@@ -275,8 +433,10 @@ document.addEventListener('DOMContentLoaded', function() {
     var client = getClientDetails(clientId);
     if (client) {
         populateClientDetails(client);
+        renderTasks(client.tasks); // Render tasks after populating client details
     } else {
         // Handle case where client ID is not found
         alert('Client not found');
     }
+
 });

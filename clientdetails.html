@@ -17,10 +17,31 @@
             <p><strong>Company:</strong> <span id="client-company"></span></p>
             <p><strong>Phone No.:</strong> <span id="client-phone"></span></p>
         </div>
-        <button id="add-service-btn">Add Service</button> <!-- Add Service button -->
-        <div id="services-container">
-            <!-- Services will be dynamically added here -->
+    </div>
+    
+    <div class="services-tasks-container">
+        <div class="services-column">
+            <h3>Services</h3>
+            <button id="add-service-btn">Add Service</button> <!-- Add Service button -->
+            <div id="services-container">
+                <!-- Services will be dynamically added here -->
+            </div>
         </div>
+        
+
+        <!-- Tasks Section -->
+        <div class="tasks-column">
+            <h3>Tasks</h3>
+            <form id="add-task-form">
+                <input type="text" id="task-input" placeholder="Enter task..." class="small-input">
+                <button type="submit" id="add-task-btn">Add Task</button>
+            </form>
+            <ul id="tasks-list">
+                <!-- Tasks will be dynamically added here -->
+            </ul>
+
+        </div>
+
     </div>
 
     <!-- Service modal -->
