@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Calculate time until renewal
                 var timeUntilRenewal = calculateTimeUntilRenewal(expiryDate.toISOString().split('T')[0], service.renewal);
-                
+
                 // Update the service date
                 service.date = expiryDate.toISOString().split('T')[0];
                 localStorage.setItem('clients', JSON.stringify(clients));
@@ -148,6 +148,22 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 
+    // Function to delete a service
+    function deleteService(index) {
+        var clientId = getParameterByName('clientId');
+        var clients = JSON.parse(localStorage.getItem('clients')) || [];
+        var clientIndex = clients.findIndex(function(client) {
+            return client.id == clientId;
+        });
+        if (clientIndex !== -1 && clients[clientIndex].services) {
+            clients[clientIndex].services.splice(index, 1);
+            localStorage.setItem('clients', JSON.stringify(clients));
+            var client = getClientDetails(clientId);
+            if (client) {
+                renderServices(client.services);
+            }
+        }
+    }
 
 
     // Function to add a new task
