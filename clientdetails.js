@@ -36,10 +36,12 @@ document.addEventListener('DOMContentLoaded', function() {
         services.forEach(function(service, index) {
             var serviceItem = document.createElement('div');
             serviceItem.classList.add('service-item');
+
+
             serviceItem.innerHTML = `
                 <p><strong>Service Name:</strong> ${service.name}</p>
-                <p><strong>Date of Service:</strong> ${service.date}</p>
-                <p><strong>Payment:</strong> $${service.payment}</p>
+                <p><strong>Date of Renew:</strong> ${service.renewals}</p>
+                <p><strong>Payment:</strong> $${service.payment} per ${service.renewal}</p> <!-- Display renewal period here -->
                 <div class="service-buttons">
                     <button class="renew-service-btn" data-index="${index}">Renew</button> <!-- Renew button -->
                     <button class="get-invoice-btn" data-index="${index}">Get Invoice</button>
@@ -65,6 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 var servicePaymentElement = serviceItem.querySelector('p:nth-of-type(3)'); // Get the service payment element
                 var serviceDateElement = serviceItem.querySelector('p:nth-of-type(2)'); // Get the service date element
                 var renewalInfo = serviceItem.querySelector('p:nth-of-type(4)');
+                
 
                 var billToName = client.fullName;
                 var billToAddress = client.address;
@@ -76,7 +79,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     var servicePayment = servicePaymentElement.textContent.trim().split(':')[1].replace('$', ''); // Get service payment
                     var serviceDate = serviceDateElement.textContent.trim().split(':')[1];
                     var timeUntilRenewal = renewalInfo.textContent.split(' ')[2]; 
-
 
                     var invoiceUrl = `invoice.html?serviceName=${serviceName}&servicePayment=${servicePayment}&serviceDate=${serviceDate}&timeUntilRenewal=${timeUntilRenewal}&billToName=${billToName}&billToAddress=${billToAddress}&billToPhone=${billToPhone}&renewdates=${timeUntilRenewal}`;
             
@@ -129,6 +131,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             if (clientIndex !== -1 && clients[clientIndex].services) {
                 var service = clients[clientIndex].services[index];
+                var currentDate = new Date()
                 var expiryDate = new Date(service.date);
                 expiryDate.setDate(expiryDate.getDate() + parseInt(renewalDays)); // Renew for specified days
                 
@@ -137,6 +140,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 // Update the service date
                 service.date = expiryDate.toISOString().split('T')[0];
+                service.renewals = currentDate.toISOString().split('T')[0];
+
                 localStorage.setItem('clients', JSON.stringify(clients));
 
                 // Show confirmation message
@@ -221,7 +226,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function displayTimeUntilRenewal(service, serviceItem) {
         var timeUntilRenewal = calculateTimeUntilRenewal(service.date, service.renewal);
         var renewalInfo = document.createElement('p');
-        renewalInfo.textContent = 'Renews in ' + timeUntilRenewal + ' days';
+        renewalInfo.textContent = 'Expires in ' + timeUntilRenewal + ' days';
 
         // Apply color coding based on time until renewal
         if (timeUntilRenewal <= 15 && timeUntilRenewal >= 3) {
@@ -413,9 +418,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
         addServiceForm.addEventListener('submit', function(event) {
             event.preventDefault();
+
+            var today = new Date();
             // Get form values
             var serviceName = document.getElementById('service-name').value;
-            var serviceDate = document.getElementById('service-date').value;
+            var serviceDate = today.toISOString().split('T')[0];
+
+            var serviceRenewals = today.toISOString().split('T')[0];
+
+            console.log(serviceDate);
+            
+            //var serviceDate = document.getElementById('service-date').value;
             var servicePayment = document.getElementById('service-payment').value;
             var serviceRenewal = document.getElementById('service-renewal').value;
 
@@ -423,6 +436,7 @@ document.addEventListener('DOMContentLoaded', function() {
             var newService = {
                 name: serviceName,
                 date: serviceDate,
+                renewals: serviceRenewals,
                 payment: servicePayment,
                 renewal: serviceRenewal
             };
