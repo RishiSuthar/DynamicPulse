@@ -20,13 +20,20 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('client-address').textContent = client.address;
         document.getElementById('client-company').textContent = client.company;
         document.getElementById('client-phone').textContent = client.phone;
-
+    
         // Populate services
-        renderServices(client.services);
-
+        if (client.services) {
+            renderServices(client.services);
+        } else {
+            // Handle case where no services are available
+            var servicesContainer = document.getElementById('services-container');
+            servicesContainer.innerHTML = '<p>No services available.</p>';
+        }
+    
         // Populate tasks
         renderTasks(client.tasks);
     }
+    
 
     // Function to render services in the HTML
     function renderServices(services) {
@@ -246,52 +253,57 @@ document.addEventListener('DOMContentLoaded', function() {
     function renderTasks(tasks) {
         var tasksList = document.getElementById('tasks-list');
         tasksList.innerHTML = ''; // Clear previous tasks
-
-        tasks.forEach(function(task, index) {
-            var taskItem = document.createElement('li');
-            taskItem.innerHTML = `
-                <span class="task-name">${task.name}</span>
-                <div class="task-status">
-                    <select class="status-dropdown" data-index="${index}">
-                        <option value="inprogress">In Progress</option>
-                        <option value="complete">Complete</option>
-                        <option value="incomplete">Incomplete</option>
-                    </select>
-                </div>
-                <button class="delete-task-btn">X</button>
-            `;
-
-            tasksList.appendChild(taskItem);
-            // Set the selected status based on the task status from local storage
-            var storedStatus = localStorage.getItem(`taskStatus-${clientId}-${index}`);
-            if (storedStatus) {
-                taskItem.querySelector('.status-dropdown').value = storedStatus;
-                updateTaskStatus(taskItem, storedStatus); // Apply color coding based on stored status
-            }
-
-            // Add a line for spacing
-            var line = document.createElement('hr');
-            tasksList.appendChild(line);
-        });
-
-        // Attach event listener to task status dropdowns
-        var dropdowns = document.querySelectorAll('.status-dropdown');
-        dropdowns.forEach(function(dropdown) {
-            dropdown.addEventListener('change', function() {
-                var index = parseInt(dropdown.getAttribute('data-index'));
-                var status = dropdown.value;
-                updateTaskStatus(dropdown.parentElement.parentElement, status);
+    
+        if (tasks && tasks.length > 0) {
+            tasks.forEach(function(task, index) {
+                var taskItem = document.createElement('li');
+                taskItem.innerHTML = `
+                    <span class="task-name">${task.name}</span>
+                    <div class="task-status">
+                        <select class="status-dropdown" data-index="${index}">
+                            <option value="inprogress">In Progress</option>
+                            <option value="complete">Complete</option>
+                            <option value="incomplete">Incomplete</option>
+                        </select>
+                    </div>
+                    <button class="delete-task-btn">X</button>
+                `;
+    
+                tasksList.appendChild(taskItem);
+                // Set the selected status based on the task status from local storage
+                var storedStatus = localStorage.getItem(`taskStatus-${clientId}-${index}`);
+                if (storedStatus) {
+                    taskItem.querySelector('.status-dropdown').value = storedStatus;
+                    updateTaskStatus(taskItem, storedStatus); // Apply color coding based on stored status
+                }
+    
+                // Add a line for spacing
+                var line = document.createElement('hr');
+                tasksList.appendChild(line);
             });
-        });
-
-        // Attach event listener to delete task buttons
-        var deleteButtons = document.querySelectorAll('.delete-task-btn');
-        deleteButtons.forEach(function(button, index) {
-            button.addEventListener('click', function() {
-                deleteTask(index);
+    
+            // Attach event listener to task status dropdowns
+            var dropdowns = document.querySelectorAll('.status-dropdown');
+            dropdowns.forEach(function(dropdown) {
+                dropdown.addEventListener('change', function() {
+                    var index = parseInt(dropdown.getAttribute('data-index'));
+                    var status = dropdown.value;
+                    updateTaskStatus(dropdown.parentElement.parentElement, status);
+                });
             });
-        });
+    
+            // Attach event listener to delete task buttons
+            var deleteButtons = document.querySelectorAll('.delete-task-btn');
+            deleteButtons.forEach(function(button, index) {
+                button.addEventListener('click', function() {
+                    deleteTask(index);
+                });
+            });
+        } else {
+            tasksList.innerHTML = '<p>No tasks available.</p>';
+        }
     }
+    
 
 
     // Function to update task status
