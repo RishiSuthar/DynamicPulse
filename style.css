@@ -11,7 +11,7 @@ body {
 }
 
 .welcome-badge {
-    background-color: #007bff;
+    background-color: #363636;
     color: #fff;
     text-align: center;
     padding: 10px;
@@ -193,8 +193,31 @@ button:hover {
 
 #logout-btn{
     width: 100px;
-
+    background-color: #363636;
+    transition: background-color 0.3s; /* Add smooth transition effect */
 }
+
+#logout-btn:hover {
+    background-color: #005ea1; /* Change color on hover */
+}
+
+
+
+#loginbutton2 {
+    width: 200px;
+    background-color: #363636;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto; /* Center the button horizontally */
+    transition: background-color 0.3s; /* Add smooth transition effect */
+}
+
+#loginbutton2:hover {
+    background-color: #005ea1; /* Change color on hover */
+}
+
+
 
 #logoutbutton {
     display: flex;
@@ -248,7 +271,10 @@ button:hover {
 }
 
 
-
+#back-btn:hover{
+    background-color: #003d66;
+    font-size: 27px;
+}
 
 .delete-task-btn {
     display: flex;
