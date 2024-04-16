@@ -6,8 +6,11 @@ document.addEventListener('DOMContentLoaded', function() {
         var username = document.getElementById('username').value;
         var password = document.getElementById('password').value;
 
+        var user2 = username.toLowerCase(); 
+        var pass2 = password.toLowerCase();
+
         // For simplicity, hardcoded authentication logic
-        if (username === 'user' && password === 'user') {
+        if (user2 === 'user' && pass2 === 'user') {
             window.location.href = 'mainwindow.html';
         } else {
             alert('Invalid username or password. Please try again.');
