@@ -193,7 +193,7 @@ document.addEventListener('DOMContentLoaded', function() {
             var newTask = {
                 name: taskName,
                 status: 'incomplete' // Set the initial status to 'incomplete'
-            };
+            };  
             // Add the new task to the client's tasks array
             clients[clientIndex].tasks.push(newTask);
             localStorage.setItem('clients', JSON.stringify(clients));

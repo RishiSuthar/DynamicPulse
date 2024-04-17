@@ -99,13 +99,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Dynamic search functionality
     var searchInput = document.getElementById('search-input');
     searchInput.addEventListener('input', function() {
         var searchTerm = searchInput.value.toLowerCase();
         var filteredClients = allClients.filter(function(client) {
-            return client.fullName.toLowerCase().includes(searchTerm);
+            // Check if the search term matches either full name or company name
+            return client.fullName.toLowerCase().includes(searchTerm) || client.company.toLowerCase().includes(searchTerm);
         });
         renderClients(filteredClients);
     });
 });
+
