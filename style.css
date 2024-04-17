@@ -184,12 +184,6 @@ button:hover {
     background-color: #c82333;
 }
 
-.client-item {
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 3px solid rgb(63, 63, 63);
-}
-
 
 #logout-btn{
     width: 100px;
@@ -445,4 +439,25 @@ footer {
     width: 24px; /* Adjust the width as needed */
     height: 24px; /* Adjust the height as needed */
     margin-right: 8px; /* Optional: Add some space between the icon and text */
+}
+
+
+
+.client-item {
+    padding: 8px;
+    margin-bottom: 20px;
+    border: 3px solid rgb(63, 63, 63);
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.edit-client-btn {
+    font-size: 15px;
+    width: 70px;
+    margin-left: 50px;
+    background-color: black;
+
 }

@@ -17,20 +17,101 @@ document.addEventListener('DOMContentLoaded', function() {
 
         clients.forEach(function(client) {
             var listItem = document.createElement('div');
-            listItem.textContent = client.fullName + ' : ' + client.company;
             listItem.classList.add('client-item');
-            listItem.setAttribute('data-client-id', client.id); // Add client ID as a data attribute
+
+            // Client name and company
+            var clientInfo = document.createElement('span');
+            clientInfo.textContent = client.fullName + ' : ' + client.company;
+            listItem.appendChild(clientInfo);
+
+            // Edit button
+            var editButton = document.createElement('button');
+            editButton.textContent = 'Edit';
+            editButton.classList.add('edit-client-btn');
+            editButton.setAttribute('data-client-id', client.id); // Add client ID as a data attribute
+            listItem.appendChild(editButton);
+
             clientList.appendChild(listItem);
+        });
+
+        // Add event listener to each edit button
+        clientList.querySelectorAll('.edit-client-btn').forEach(function(button) {
+            button.addEventListener('click', function(event) {
+                event.stopPropagation(); // Prevent click event from bubbling to the client item
+
+                var clientId = button.getAttribute('data-client-id');
+                editClient(clientId);
+            });
         });
 
         // Add event listener to each client item
         clientList.querySelectorAll('.client-item').forEach(function(item) {
             item.addEventListener('click', function() {
-                var clientId = item.getAttribute('data-client-id');
+                var clientId = item.querySelector('.edit-client-btn').getAttribute('data-client-id');
                 window.location.href = 'clientdetails.html?clientId=' + clientId; // Redirect to client details page
             });
         });
     }
+
+    
+    function editClient(clientId) {
+        // Fetch client details from local storage
+        var clients = getClients();
+        var clientIndex = clients.findIndex(function(c) {
+            return c.id == clientId;
+        });
+    
+        if (clientIndex === -1) {
+            console.error("Client not found");
+            return;
+        }
+    
+        var client = clients[clientIndex];
+    
+        // Populate the form with client details
+        document.getElementById('fullname').value = client.fullName;
+        document.getElementById('address').value = client.address;
+        document.getElementById('company').value = client.company;
+        document.getElementById('phone').value = client.phone;
+    
+        // Display the add client modal
+        var addClientModal = document.getElementById('add-client-modal');
+        addClientModal.style.display = 'block';
+    
+        // Change the submit button to update client
+        var submitButton = document.querySelector('#add-client-form button[type="submit"]');
+        submitButton.textContent = 'Save Changes';
+    
+        // Update client details on form submission
+        var addClientForm = document.getElementById('add-client-form');
+        addClientForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            // Get form values
+            var fullName = document.getElementById('fullname').value;
+            var address = document.getElementById('address').value;
+            var company = document.getElementById('company').value;
+            var phone = document.getElementById('phone').value;
+    
+            // Update client object
+            clients[clientIndex].fullName = fullName;
+            clients[clientIndex].address = address;
+            clients[clientIndex].company = company;
+            clients[clientIndex].phone = phone;
+    
+            // Save the updated clients list to local storage
+            saveClients(clients);
+    
+            // Re-render the client list
+            renderClients(clients);
+    
+            // Close the modal after form submission
+            addClientModal.style.display = 'none';
+        });
+    }
+    
+    
+    
+
 
     // Initial rendering of clients
     var allClients = getClients();
