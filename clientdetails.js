@@ -189,10 +189,10 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!clients[clientIndex].tasks) {
                 clients[clientIndex].tasks = [];
             }
-            // Create a new task object
+            // Create a new task object with initial status set to 'incomplete'
             var newTask = {
                 name: taskName,
-                status: 'inprogress' // Set the initial status to 'inprogress'
+                status: 'incomplete' // Set the initial status to 'incomplete'
             };
             // Add the new task to the client's tasks array
             clients[clientIndex].tasks.push(newTask);
@@ -208,6 +208,7 @@ document.addEventListener('DOMContentLoaded', function() {
             updateTaskStatus(newTaskItem, status); // Apply color coding based on the status
         }
     }
+
 
 
     // Function to calculate time until renewal
