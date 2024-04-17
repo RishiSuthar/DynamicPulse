@@ -266,8 +266,8 @@ button:hover {
 
 
 #back-btn:hover{
-    background-color: #003d66;
-    font-size: 27px;
+    background-color: #005a96;
+
 }
 
 .delete-task-btn {
@@ -460,4 +460,8 @@ footer {
     margin-left: 50px;
     background-color: black;
 
+}
+
+.client-item:hover span {
+    color: rgb(124, 124, 124); /* Change the color as per your preference */
 }
