@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="style.css">
     <script src="mainscript.js"></script>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
-
 </head>
 <body>
     <div class="welcome-badge">
@@ -18,8 +17,10 @@
 
     <div class="main-panel">
         <h2>Client Management</h2>
-        <button id="add-client-btn">Add Client</button>
-        <input type="text" id="search-input" placeholder="Search for clients...">
+        <div class="search-add-container">
+            <input type="text" id="search-input" placeholder="🔍 Search for clients...">
+            <button id="add-client-btn">+ Add Client</button>
+        </div>
         <div class="client-section">
             <h3>Clients List</h3>
             <!-- Here goes the list of clients -->
@@ -40,7 +41,6 @@
     <div id="logoutbutton">
         <button id="logout-btn">Logout</button>
     </div>
-
 
     <div id="add-client-modal" class="modal">
         <div class="modal-content">
@@ -70,7 +70,6 @@
 
     <footer>
         &copy; 2024 Rishi Suthar. All Rights Reserved
-
     </footer>
 </body>
 </html>

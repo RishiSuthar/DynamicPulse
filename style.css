@@ -444,24 +444,58 @@ footer {
 
 
 .client-item {
-    padding: 8px;
-    margin-bottom: 20px;
+    padding: 5px;
+    margin-bottom: 18px;
     border: 3px solid rgb(63, 63, 63);
 
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }
 
 
 .edit-client-btn {
     font-size: 15px;
     width: 70px;
-    margin-left: 50px;
-    background-color: black;
+    background-color: rgb(0, 6, 115);
 
 }
 
 .client-item:hover span {
     color: rgb(124, 124, 124); /* Change the color as per your preference */
 }
+
+
+.delete-client-btn {
+    font-size: 15px;
+    width: 70px;
+    background-color: rgb(169, 0, 0);
+
+}
+
+
+
+.client-item {
+    font-size: 19px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.client-item .buttons-container {
+    display: flex;
+}
+
+.client-item .buttons-container button {
+    margin-left: 20px;
+
+}
+
+
+#search-input {
+    width: 50%; /* Adjust width as needed */
+    margin-right: 20px;
+}
+
+#add-client-btn {
+    width: 120px; /* Adjust width as needed */
+    margin-right: 20px; /* Add margin to separate from the search input */
+}
+

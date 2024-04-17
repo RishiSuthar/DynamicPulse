@@ -24,12 +24,25 @@ document.addEventListener('DOMContentLoaded', function() {
             clientInfo.textContent = client.fullName + ' : ' + client.company;
             listItem.appendChild(clientInfo);
 
+            // Container for edit and delete buttons
+            var buttonsContainer = document.createElement('div');
+            buttonsContainer.classList.add('buttons-container');
+
             // Edit button
             var editButton = document.createElement('button');
             editButton.textContent = 'Edit';
             editButton.classList.add('edit-client-btn');
             editButton.setAttribute('data-client-id', client.id); // Add client ID as a data attribute
-            listItem.appendChild(editButton);
+            buttonsContainer.appendChild(editButton);
+
+            // Delete button
+            var deleteButton = document.createElement('button');
+            deleteButton.textContent = 'Delete';
+            deleteButton.classList.add('delete-client-btn');
+            deleteButton.setAttribute('data-client-id', client.id); // Add client ID as a data attribute
+            buttonsContainer.appendChild(deleteButton);
+
+            listItem.appendChild(buttonsContainer);
 
             // Prepend the new client to the top of the list
             clientList.prepend(listItem);
@@ -45,6 +58,19 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
 
+        // Add event listener to each delete button
+        clientList.querySelectorAll('.delete-client-btn').forEach(function(button) {
+            button.addEventListener('click', function(event) {
+                event.stopPropagation(); // Prevent click event from bubbling to the client item
+
+                var clientId = button.getAttribute('data-client-id');
+                var confirmation = confirm("Are you sure you want to delete this client?");
+                if (confirmation) {
+                    deleteClient(clientId);
+                }
+            });
+        });
+
         // Add event listener to each client item
         clientList.querySelectorAll('.client-item').forEach(function(item) {
             item.addEventListener('click', function() {
@@ -53,6 +79,17 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
+
+    // Function to delete a client
+    function deleteClient(clientId) {
+        var clients = getClients();
+        var updatedClients = clients.filter(function(client) {
+            return client.id != clientId;
+        });
+        saveClients(updatedClients);
+        renderClients(updatedClients);
+    }
+
 
 
     // Function to add a new client
