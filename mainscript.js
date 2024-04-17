@@ -10,40 +10,52 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('clients', JSON.stringify(clients));
     }
 
-    // Function to render clients in the client list
     function renderClients(clients) {
         var clientList = document.getElementById('client-list');
         clientList.innerHTML = ''; // Clear previous list
-
+        
+        var clientCounter = 1; // Initialize client counter
+        var clientNumbers = {}; // Object to store client numbers
+    
         clients.forEach(function(client) {
             var listItem = document.createElement('div');
             listItem.classList.add('client-item');
-
+    
+            // Assign client number if not already assigned
+            if (!clientNumbers.hasOwnProperty(client.id)) {
+                clientNumbers[client.id] = clientCounter++;
+            }
+    
+            // Client number
+            var clientNumber = document.createElement('span');
+            clientNumber.textContent = "Cl No. " + clientNumbers[client.id];
+            listItem.appendChild(clientNumber);
+    
             // Client name and company
             var clientInfo = document.createElement('span');
             clientInfo.textContent = client.fullName + ' : ' + client.company;
             listItem.appendChild(clientInfo);
-
+    
             // Container for edit and delete buttons
             var buttonsContainer = document.createElement('div');
             buttonsContainer.classList.add('buttons-container');
-
+    
             // Edit button
             var editButton = document.createElement('button');
             editButton.textContent = 'Edit';
             editButton.classList.add('edit-client-btn');
             editButton.setAttribute('data-client-id', client.id); // Add client ID as a data attribute
             buttonsContainer.appendChild(editButton);
-
+    
             // Delete button
             var deleteButton = document.createElement('button');
             deleteButton.textContent = 'Delete';
             deleteButton.classList.add('delete-client-btn');
             deleteButton.setAttribute('data-client-id', client.id); // Add client ID as a data attribute
             buttonsContainer.appendChild(deleteButton);
-
+    
             listItem.appendChild(buttonsContainer);
-
+    
             // Prepend the new client to the top of the list
             clientList.prepend(listItem);
         });
@@ -97,11 +109,17 @@ document.addEventListener('DOMContentLoaded', function() {
         // Display the add client modal
         var addClientModal = document.getElementById('add-client-modal');
         addClientModal.style.display = 'block';
-
+    
+        // Clear input fields
+        document.getElementById('fullname').value = '';
+        document.getElementById('address').value = '';
+        document.getElementById('company').value = '';
+        document.getElementById('phone').value = '';
+    
         // Change the submit button to add client
         var submitButton = document.querySelector('#add-client-form button[type="submit"]');
         submitButton.textContent = 'Add Client';
-
+    
         // Update client details on form submission
         var addClientForm = document.getElementById('add-client-form');
         addClientForm.addEventListener('submit', function(event) {
@@ -111,7 +129,18 @@ document.addEventListener('DOMContentLoaded', function() {
             var address = document.getElementById('address').value;
             var company = document.getElementById('company').value;
             var phone = document.getElementById('phone').value;
-
+    
+            // Check if the client already exists
+            var clients = getClients();
+            var existingClient = clients.find(function(client) {
+                return client.fullName === fullName && client.address === address && client.company === company && client.phone === phone;
+            });
+    
+            if (existingClient) {
+                alert('This client already exists.');
+                return; // Exit the function if the client already exists
+            }
+    
             // Create new client object
             var newClient = {
                 id: Date.now(), // Unique identifier for each client
@@ -120,15 +149,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 company: company,
                 phone: phone
             };
-
+    
             // Save the client to local storage
-            var clients = getClients();
             clients.push(newClient);
             saveClients(clients);
-
+    
             // Re-render the client list
             renderClients(clients);
-
+    
             // Close the modal after form submission
             addClientModal.style.display = 'none';
         });
