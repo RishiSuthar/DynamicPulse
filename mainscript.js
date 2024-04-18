@@ -10,52 +10,40 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('clients', JSON.stringify(clients));
     }
 
+    // Function to render clients in the client list
     function renderClients(clients) {
         var clientList = document.getElementById('client-list');
         clientList.innerHTML = ''; // Clear previous list
-        
-        var clientCounter = 1; // Initialize client counter
-        var clientNumbers = {}; // Object to store client numbers
-    
+
         clients.forEach(function(client) {
             var listItem = document.createElement('div');
             listItem.classList.add('client-item');
-    
-            // Assign client number if not already assigned
-            if (!clientNumbers.hasOwnProperty(client.id)) {
-                clientNumbers[client.id] = clientCounter++;
-            }
-    
-            // Client number
-            var clientNumber = document.createElement('span');
-            clientNumber.textContent = "Cl No. " + clientNumbers[client.id];
-            listItem.appendChild(clientNumber);
-    
+
             // Client name and company
             var clientInfo = document.createElement('span');
             clientInfo.textContent = client.fullName + ' : ' + client.company;
             listItem.appendChild(clientInfo);
-    
+
             // Container for edit and delete buttons
             var buttonsContainer = document.createElement('div');
             buttonsContainer.classList.add('buttons-container');
-    
+
             // Edit button
             var editButton = document.createElement('button');
             editButton.textContent = 'Edit';
             editButton.classList.add('edit-client-btn');
             editButton.setAttribute('data-client-id', client.id); // Add client ID as a data attribute
             buttonsContainer.appendChild(editButton);
-    
+
             // Delete button
             var deleteButton = document.createElement('button');
             deleteButton.textContent = 'Delete';
             deleteButton.classList.add('delete-client-btn');
             deleteButton.setAttribute('data-client-id', client.id); // Add client ID as a data attribute
             buttonsContainer.appendChild(deleteButton);
-    
+
             listItem.appendChild(buttonsContainer);
-    
+
             // Prepend the new client to the top of the list
             clientList.prepend(listItem);
         });
