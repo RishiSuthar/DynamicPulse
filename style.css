@@ -274,11 +274,11 @@ button:hover {
     display: flex;
     justify-content: center;
     font-size: 10px;
-    width: 20px; /* Adjust the width as needed */
+    width: 10px; /* Adjust the width as needed */
     background-color: red;
-    height: 25px;
+    height: 20px;
     padding: 5px 10px;
-    margin-top: 5px;
+    margin-top: 15px;
 }
 
 
@@ -290,23 +290,17 @@ button:hover {
 /* Styles for task status colors */
 .green {
     color: #008e21; /* Green */
-    background-color: #f8f9fa; /* Light gray */
     padding: 5px 10px; /* Padding for better spacing */
-    border-radius: 4px; /* Rounded corners */
 }
 
 .red {
     color: #a80011; /* Red */
-    background-color: #f8f9fa; /* Light gray */
     padding: 5px 10px; /* Padding for better spacing */
-    border-radius: 4px; /* Rounded corners */
 }
 
 .yellow {
-    color: #d19c00; /* Yellow */
-    background-color: #f8f9fa; /* Light gray */
+    color: #bd8e00; /* Yellow */
     padding: 5px 10px; /* Padding for better spacing */
-    border-radius: 4px; /* Rounded corners */
 }
 
 
@@ -480,7 +474,7 @@ footer {
 
 
 .client-item {
-    font-size: 19px;
+    font-size: 17px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -504,5 +498,19 @@ footer {
 #add-client-btn {
     width: 120px; /* Adjust width as needed */
     margin-right: 20px; /* Add margin to separate from the search input */
+}
+
+/* Customizing the appearance of the dropdown */
+.status-dropdown {
+    appearance: none; /* Remove default appearance */
+    background-color: #f4f4f4; /* Background color */
+    border: 1px solid #313131; /* Border color */
+    border-radius: 5px; /* Rounded corners */
+    padding: 5px; /* Padding inside the dropdown */
+    width: 90px; /* Width of the dropdown */
+    font-size: 15px; /* Font size */
+    cursor: pointer; /* Show pointer cursor on hover */
+    outline: none; /* Remove outline on focus */
+    margin-top: 10px;
 }
 
