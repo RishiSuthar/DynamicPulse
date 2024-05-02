@@ -28,24 +28,14 @@
                 var billToAddress = urlParams.get('billToAddress'); // Add this line to get bill-to-address
                 var billToPhone = urlParams.get('billToPhone'); // Add this line to get bill-to-phone
                 var renewdate = urlParams.get('renewdates');
+                var daysUntilExpiration = parseInt(renewdate); // Parse renewdate to integer
         
-                // Function to calculate expiration date based on service date and days until renewal
+                // Function to calculate expiration date based on renewed date and days until expiration
                 function calculateExpirationDate(date, daysUntilExpiration) {
                     var expirationDate = new Date(date);
                     expirationDate.setDate(expirationDate.getDate() + daysUntilExpiration);
                     return expirationDate.toISOString().split('T')[0]; // Convert date to string in YYYY-MM-DD format
                 }
-        
-                // Function to calculate the number of days until expiration
-                function calculateDaysUntilExpiration(expirationDate) {
-                    var today = new Date();
-                    var expiration = new Date(expirationDate);
-                    var daysUntilExpiration = Math.ceil((expiration - today) / (1000 * 60 * 60 * 24)); // Calculate time in days
-                    return daysUntilExpiration;
-                }
-        
-                // Calculate the number of days until expiration
-                var daysUntilExpiration = calculateDaysUntilExpiration(serviceDate);
         
                 // Calculate the expiration date
                 var expirationDate = calculateExpirationDate(serviceDate, daysUntilExpiration);
@@ -75,6 +65,7 @@
                         <p><strong>Payment:</strong> $${servicePayment}</p>
                         <p><strong>Date Renewed:</strong> ${serviceDate}</p>
                         <p><strong>Expires In:</strong> ${renewdate} day(s)</p>
+                        <p><strong>Expiration Date:</strong> ${expirationDate}</p>
                     `;
                 }
             });
@@ -83,7 +74,6 @@
     </div>
     <footer>
         &copy; 2024 Rishi Suthar. All Rights Reserved
-
     </footer>
 </body>
 </html>
