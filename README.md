@@ -17,9 +17,10 @@ The webpage :  **[DynamicPulse](https://dynamicpulse.netlify.app/)**
 
 ## Usage
 
+- **Login Page** At the moment the default credentials are : **USERNAME -> user : PASSWORD -> user**
 - **Adding Clients:** Use the 'Add Client' form to input client details and save them to the system.
 - **Managing Tasks:** Navigate to the 'Tasks' section to create new tasks, assign them to clients, and track their progress.
-- **Creating Invoices:** Access the 'Invoices' section to generate and manage invoices. Customize templates as needed.
+- **Creating Invoices:** Access the 'Invoices' section to generate and manage invoices. 
 - **Managing Subscriptions:** Use the 'Subscriptions' section to manage and track client subscription information.
 
 ## Contributing
